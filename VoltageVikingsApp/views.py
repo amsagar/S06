@@ -328,3 +328,30 @@ def advPaysucc(request, id):
     to_user.wallet += (item.charge_amt * 25) / 100
     to_user.save()
     return redirect('/request_view')
+
+
+def maph(request, dest_lat=None, dest_long=None, id=None, src_lat=None, src_long=None, page=None, txn_id=None):
+    if page == 0 and id:
+        dest_user = ChargingStations.objects.get(id=id)
+    else:
+        dest_user = UserProfile.objects.get(id=id)
+    directions = Directions(
+        lat_a=src_lat,
+        long_a=src_long,
+        lat_b=dest_lat,
+        long_b=dest_long
+    )
+    context = {
+        "google_api_key": settings.GOOGLE_API_KEY,
+        "lat_a": src_lat,
+        "long_a": src_long,
+        "lat_b": dest_lat,
+        "long_b": dest_long,
+        "origin": f'{src_lat}, {src_long}',
+        "destination": f'{dest_lat}, {dest_long}',
+        "directions": directions,
+        "destuser": dest_user,
+        "page": page,
+        "txn_id": txn_id
+    }
+    return render(request, 'main/routemap.html', context)
