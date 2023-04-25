@@ -15,3 +15,10 @@
   - HTML
   - CSS
   - Javascript
+# Libraries and Dependencies
+- Pychram/VS Code
+- Google Map API Key
+- Google OAuth API Key
+- Razor Pay API Key
+- Gmail App Password
+- Required Module Are In The requiements.txt
