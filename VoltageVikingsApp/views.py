@@ -266,3 +266,15 @@ def send_request(request):
             request_obj.save()
             # mail_request(request, to_id)
             return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+
+
+@login_required
+def req_view(request):
+    profile = UserProfile.objects.get(user=request.user)
+    try:
+        to_req = Requests.objects.filter(to_user=profile)
+        from_req = Requests.objects.filter(from_user=profile)
+    except:
+        from_req = None
+        to_req = None
+    return render(request, 'main/request.html', {'from': from_req, 'to': to_req})
