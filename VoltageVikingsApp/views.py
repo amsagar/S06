@@ -401,3 +401,14 @@ def final_payment(request, txn_id):
     ord_id = order['id']
     return render(request, 'main/pay1.html',
                   {'key': settings.RAZOR_PAY_API_KEY, 'ord_id': ord_id, 'txn': item})
+
+
+@csrf_exempt
+def finPaysucc(request, id):
+    item = Requests.objects.get(id=id)
+    item.fin_pay_status = True
+    item.save()
+    to_user = UserProfile.objects.get(user=item.to_user.user)
+    to_user.wallet += (item.charge_amt - (item.charge_amt * 25) / 100)
+    to_user.save()
+    return redirect('/request_view')

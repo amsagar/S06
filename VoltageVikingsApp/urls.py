@@ -31,4 +31,5 @@ urlpatterns = [
                       'liverouting/<str:src_lat_got>/<str:src_long_got>/<str:dest_lat>/<str:dest_long>/<int:page>/<int:txn_id>/',
                       views.live),
                   path('final_pay/<int:txn_id>/', views.final_payment),
+                  path('finpaysuc/<int:id>/', views.finPaysucc),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
