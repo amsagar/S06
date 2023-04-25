@@ -22,4 +22,5 @@ urlpatterns = [
                   path('request_view/', views.req_view),
                   path('acc_req/', views.accept_request),
                   path('rej_req/', views.reject_request),
+                  path('pay/<int:id>/', views.adv_payment),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

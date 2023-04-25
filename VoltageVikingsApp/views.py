@@ -8,6 +8,7 @@ from django.conf import settings
 from .forms import UserProfileForm
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+import razorpay
 
 lat, long = 0, 0
 src_lat, src_long = 0, 0
@@ -301,3 +302,18 @@ def reject_request(request):
         user_requests = Requests.objects.get(id=from_id)
         user_requests.delete()
         return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+
+
+@login_required
+def adv_payment(request, id):
+    item = Requests.objects.get(id=id)
+    tot_amt = item.charge_amt
+    amt = (tot_amt * 25) / 100
+    client = razorpay.Client(auth=(settings.RAZOR_PAY_API_KEY, settings.RAZOR_PAY_SECRET_KEY))
+    ord_amt = amt * 100
+    ord_curr = 'INR'
+    order = client.order.create(dict(amount=ord_amt, currency=ord_curr, payment_capture=1))
+    ord_id = order['id']
+    return render(request, 'main/pay.html',
+                  {'key': settings.RAZOR_PAY_API_KEY, 'ord_id': ord_id, 'txn': item})
+
