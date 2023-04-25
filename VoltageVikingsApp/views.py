@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from geopy import distance
 from .mixins import Directions
 from django.conf import settings
+from .forms import UserProfileForm
 
 lat, long = 0, 0
 src_lat, src_long = 0, 0
@@ -149,3 +150,25 @@ def avail(request):
             profile.available = False
             profile.save()
             return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+
+
+def update_profile_profilepage(request):
+    try:
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            profile = None
+        if request.method == 'POST':
+            form = UserProfileForm(request.POST, instance=profile)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.completed_profile = True
+                profile.save()
+        user_data = UserProfile.objects.get(user=request.user)
+        return render(request, 'main/profile.html', {'data': user_data, "user": request.user})
+    except Exception as e:
+        try:
+            return render(request, 'main/profile.html', {'data': request.user})
+        except:
+            return render(request, 'main/profile.html', {'err': "No Data Found"})

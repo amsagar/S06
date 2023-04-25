@@ -15,4 +15,5 @@ urlpatterns = [
                       'liverouting/<str:src_lat_got>/<str:src_long_got>/<str:dest_lat>/<str:dest_long>/<int:page>/',
                       views.live),
                   path('avail/', views.avail),
+                  path('profile/', views.update_profile_profilepage),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
