@@ -135,3 +135,17 @@ def live(request, src_lat_got=None, src_long_got=None, dest_lat=None, dest_long=
         "txn_id": txn_id
     }
     return render(request, "main/live.html", context)
+
+
+def avail(request):
+    profile = UserProfile.objects.get(user=request.user)
+    if request.method == 'POST':
+        isChecked = request.POST.get('isChecked')
+        if isChecked == 'true':
+            profile.available = True
+            profile.save()
+            return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+        else:
+            profile.available = False
+            profile.save()
+            return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
