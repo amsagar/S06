@@ -16,4 +16,5 @@ urlpatterns = [
                       views.live),
                   path('avail/', views.avail),
                   path('profile/', views.update_profile_profilepage),
+                  path('completeprofile/', views.complete_profile),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

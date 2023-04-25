@@ -172,3 +172,23 @@ def update_profile_profilepage(request):
             return render(request, 'main/profile.html', {'data': request.user})
         except:
             return render(request, 'main/profile.html', {'err': "No Data Found"})
+
+
+def complete_profile(request):
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        profile = None
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.completed_profile = True
+            profile.save()
+            return redirect('/profile')
+    else:
+        form = UserProfileForm(instance=profile)
+
+    return render(request, 'main/completeprofile.html', {'form': form})
