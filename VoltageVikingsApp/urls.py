@@ -17,4 +17,5 @@ urlpatterns = [
                   path('avail/', views.avail),
                   path('profile/', views.update_profile_profilepage),
                   path('completeprofile/', views.complete_profile),
+                  path('nearbyhome/', views.nearby_home),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
