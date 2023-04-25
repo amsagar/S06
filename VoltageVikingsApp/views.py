@@ -9,6 +9,7 @@ from .forms import UserProfileForm
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 import razorpay
+from django.views.decorators.csrf import csrf_exempt
 
 lat, long = 0, 0
 src_lat, src_long = 0, 0
@@ -317,3 +318,13 @@ def adv_payment(request, id):
     return render(request, 'main/pay.html',
                   {'key': settings.RAZOR_PAY_API_KEY, 'ord_id': ord_id, 'txn': item})
 
+
+@csrf_exempt
+def advPaysucc(request, id):
+    item = Requests.objects.get(id=id)
+    item.adv_pay_status = True
+    item.save()
+    to_user = UserProfile.objects.get(user=item.to_user.user)
+    to_user.wallet += (item.charge_amt * 25) / 100
+    to_user.save()
+    return redirect('/request_view')
