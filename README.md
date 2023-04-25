@@ -22,3 +22,30 @@
 - Razor Pay API Key
 - Gmail App Password
 - Required Module Are In The requiements.txt
+# Installation Steps
+- Clone This Repository Using command
+  -  `git clone https://github.com/amsagar/S06.git`
+  - Create and Activate Your Virtual Environment In The Project Directory Using Commands
+  - python -m <your_venv_name> .  (Creation Of Virtual Environment) 
+  - source bin/activate (Activate Your Virtual Environment)
+- Now Go To Project Folder Find The `settings.py` File Open It And Make The Neccessary Changes Shown Below
+  - EMAIL_HOST_USER = 'your mail id'
+  - EMAIL_HOST_PASSWORD = "your app password"
+  - GOOGLE_API_KEY = "your api key"
+  - RAZOR_PAY_API_KEY = "your razor pay api key"
+  - RAZOR_PAY_SECRET_KEY = "your razor pay secret key"
+- Open The Terminal In Your Project Directory Make Sure Two Things
+  - Your In The `BASE_DIR` Of The Project
+    - Tip: Where You Will Be Seen The File `manage.py`
+  - Your `venv`(Virtual Environment) Is Activated
+    - Tip: Your Terminal Prompt Should Look Like This `(your_virtual_environment name) path/to/your/project/ %` 
+  - Now All Done You Are Ready With The Project Configuration. Now Run The Following Command In The Terminal
+    - `pip install -r requirements.txt`
+    - `python manage.py makemigrations`
+    - `python manage.py migrate`
+    - `python manage.py createsuperuser` - Create Admin Account Here
+    - `python manage.py runserver`
+  - Your Project Will Be Running At `localhost` Head On To Link http://127.0.0.1:8000/
+  - To Access The Admin Account Head On To Link http://127.0.0.1:8000/admin And Login With username and password Given While Creating Superuser
+  - And Also Its Important To Ensure That The Social Application Provider Is Configured With The Neccessary Keys In The Admin Panel Just As Shown Below
+    - ![Image Alt Text](soc_app.png)
