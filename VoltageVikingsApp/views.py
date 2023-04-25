@@ -39,4 +39,36 @@ def get_location(request):
             return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
 
 
-
+def nearby_stat(request):
+    global long, lat
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        lat = float(data.get('latitude'))
+        long = float(data.get('longitude'))
+        dest_got = int(data.get('dest_got'))
+        nearby_addresses = []
+        for i in ChargingStations.objects.all():
+            address_lat = i.lat
+            address_lon = i.lon
+            try:
+                dist = round(distance.distance((lat, long), (address_lat, address_lon)).km, 2)
+                if dist <= dest_got:
+                    addr = {'address': i, 'distance': dist}
+                    nearby_addresses.append(addr)
+            except:
+                pass
+        context = {'stat': nearby_addresses}
+        return render(request, 'main/nearbystat.html', context)
+    nearby_addresses = []
+    for i in ChargingStations.objects.all():
+        address_lat = i.lat
+        address_lon = i.lon
+        try:
+            dist = round(distance.distance((lat, long), (address_lat, address_lon)).km, 2)
+            if dist <= 25:
+                addr = {'address': i, 'distance': dist}
+                nearby_addresses.append(addr)
+        except:
+            pass
+    context = {'stat': nearby_addresses}
+    return render(request, 'main/nearbystat.html', context)

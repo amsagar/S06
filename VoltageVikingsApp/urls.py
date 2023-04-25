@@ -7,4 +7,5 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('home/', views.home_page),
     path('getlocation/', views.get_location),
+    path('nearbystations/', views.nearby_stat),
 ]
