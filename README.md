@@ -8,13 +8,13 @@
 - This application has the potential to bring up more electric vehicles in to the society and solve the problem of charging station deficiency
 # Tech Stack:
 - Backend
-  -  SQLite
-- Middleware 
-  - Python Django Framework
+  -  Python, Django Framework
 - Frontend 
   - HTML
   - CSS
   - Javascript
+- API's
+  -  Google Maps, Razor Pay, Google OAuth Consent Screen
 # Libraries and Dependencies
 - Pychram/VS Code
 - Google Map API Key
