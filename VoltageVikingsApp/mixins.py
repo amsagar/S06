@@ -1,5 +1,9 @@
 from django.conf import settings
 import requests
+from .models import UserProfile
+import smtplib
+from email.mime.text import MIMEText
+from django.http import JsonResponse
 
 
 def Directions(*args, **kwargs):
@@ -45,3 +49,29 @@ def Directions(*args, **kwargs):
             "steps": steps
         }
     return None
+
+
+def mail_request(request, to_id):
+    if request.method == 'POST' and to_id:
+        from_user = UserProfile.objects.get(user=request.user)
+        to_user = UserProfile.objects.get(id=to_id)
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 587
+        smtp_username = settings.EMAIL_HOST_USER
+        smtp_password = settings.EMAIL_HOST_PASSWORD
+        smtp_connection = smtplib.SMTP(smtp_server, smtp_port)
+        smtp_connection.starttls()
+        smtp_connection.login(smtp_username, smtp_password)
+        message_text = f'Hey There You Got An Request From {request.user.username} ' \
+                       f'For Charging\nKindly Approve The Request Within 4minutes\nHere' \
+                       f' Is The Contact Information Of Requester\nEmail-Id: {request.user.email}\n' \
+                       f'Phone Number: {from_user.phone_number}\n' \
+                       f'Hurry Up!!!!\nHead On To Account->Request\nThank You\nVoltage Vikings.'
+        msg = MIMEText(message_text)
+        msg['Subject'] = 'Charge Request!!!!'
+        msg['From'] = smtp_username
+        msg['To'] = to_user.user.email
+        smtp_connection.sendmail(smtp_username, to_user.user.email, msg.as_string())
+        smtp_connection.quit()
+        return JsonResponse({'status': 'success', 'message': 'Mail Sent'})
+    return JsonResponse({'status': 'error', 'message': 'Request Not Accepted By User!!'})

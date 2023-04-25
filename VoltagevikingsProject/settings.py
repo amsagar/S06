@@ -130,7 +130,7 @@ ACCOUNT_EMAIL_PASSWORD_RESET_EMAIL = 'account/password_reset_message.html'
 
 # APIs Config
 EMAIL_HOST_USER = 'voltagevikings1@gmail.com'
-EMAIL_HOST_PASSWORD = "itjtwlfehzlaatht"
+EMAIL_HOST_PASSWORD = "tqdfuzhnpwhetfal"
 GOOGLE_API_KEY = "AIzaSyCIKOWjBoOrpKcddfDKSu0U6M-pXhLmbK4"
 RAZOR_PAY_API_KEY = "rzp_test_L94mPFjinvf9ww"
 RAZOR_PAY_SECRET_KEY = "HTMxJlrWjIihBbgEyV0FFBV3"

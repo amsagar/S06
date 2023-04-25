@@ -3,9 +3,11 @@ from .models import UserProfile, Requests, ChargingStations
 import json
 from django.http import JsonResponse
 from geopy import distance
-from .mixins import Directions
+from .mixins import Directions, mail_request
 from django.conf import settings
 from .forms import UserProfileForm
+from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 lat, long = 0, 0
 src_lat, src_long = 0, 0
@@ -226,3 +228,41 @@ def nearby_home(request):
         except:
             pass
     return render(request, 'main/nearbyhome.html', {'stat': nearby_addresses})
+
+
+@login_required
+def send_request(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        to_id = int(data.get('to_id'))
+        charge_time = int(data.get('charge_time'))
+        from_user = UserProfile.objects.get(user=request.user)
+        to_user = UserProfile.objects.get(id=to_id)
+        try:
+            latest_request_by_user = Requests.objects.filter(from_user=from_user, to_user=to_user).latest('timestamp')
+            if not latest_request_by_user.accepted:
+                timestamp_string = str(latest_request_by_user.timestamp)
+                timestamp_string = timestamp_string.split('+')[0]
+                date_format = "%Y-%m-%d %H:%M:%S.%f"
+                date_object1 = datetime.strptime(timestamp_string, date_format)
+                time_difference = datetime.now() - date_object1
+                if time_difference.total_seconds() <= 300:
+                    return JsonResponse(
+                        {'status': 'error', 'message': 'Already Sent\nPlease Wait For Confirmation!!'},
+                        status=400)
+                else:
+                    latest_request_by_user.delete()
+                    request_obj = Requests.objects.create(from_user=from_user, to_user=to_user, charge_time=charge_time)
+                    request_obj.save()
+                    # mail_request(request, to_id)
+                    return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+            else:
+                request_obj = Requests.objects.create(from_user=from_user, to_user=to_user, charge_time=charge_time)
+                request_obj.save()
+                # mail_request(request, to_id)
+                return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+        except:
+            request_obj = Requests.objects.create(from_user=from_user, to_user=to_user, charge_time=charge_time)
+            request_obj.save()
+            # mail_request(request, to_id)
+            return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
