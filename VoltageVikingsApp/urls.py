@@ -20,4 +20,6 @@ urlpatterns = [
                   path('nearbyhome/', views.nearby_home),
                   path('send_request/', views.send_request),
                   path('request_view/', views.req_view),
+                  path('acc_req/', views.accept_request),
+                  path('rej_req/', views.reject_request),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -278,3 +278,26 @@ def req_view(request):
         from_req = None
         to_req = None
     return render(request, 'main/request.html', {'from': from_req, 'to': to_req})
+
+
+@login_required
+def accept_request(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        from_id = int(data.get('id'))
+        charge_amt = int(data.get('charge_amt'))
+        user_request = Requests.objects.get(id=from_id)
+        user_request.accepted = True
+        user_request.charge_amt = charge_amt
+        user_request.save()
+        return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+
+
+@login_required
+def reject_request(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        from_id = int(data.get('id'))
+        user_requests = Requests.objects.get(id=from_id)
+        user_requests.delete()
+        return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
