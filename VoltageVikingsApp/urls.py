@@ -11,4 +11,7 @@ urlpatterns = [
                   path('getlocation/', views.get_location),
                   path('nearbystations/', views.nearby_stat),
                   path('route/<str:dest_lat>/<str:dest_long>/<int:id>/<int:page>/', views.map),
+                  path(
+                      'liverouting/<str:src_lat_got>/<str:src_long_got>/<str:dest_lat>/<str:dest_long>/<int:page>/',
+                      views.live),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

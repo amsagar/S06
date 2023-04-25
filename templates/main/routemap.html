@@ -278,8 +278,12 @@ margin-bottom:-3%;
             history.replaceState(null, null, "/nearbystations");
         });
      }
-     window.location.href = "/liverouting/"+lat_a+"/"+long_a+"/"+ lat_b+"/"+long_b+"/"+page+"/"+txn_id
-
+     if(page){
+     window.location.href = "/liverouting/"+lat_a+"/"+long_a+"/"+ lat_b+"/"+long_b+"/"+page+"/"+txn_id;
+     }
+     else{
+     window.location.href = "/liverouting/"+lat_a+"/"+long_a+"/"+ lat_b+"/"+long_b+"/"+page;
+     }
 }
 document.getElementById("openMapButton").addEventListener("click", function() {
   startAction();
@@ -292,16 +296,13 @@ document.getElementById("openMapButton1").addEventListener("click", function() {
 function gmap() {
 app();
 }
-
 function app(){
     window.alert("Kindly Change The Start Location To Your Location On Top Of Your Screen In Gmap Application");
     window.location.href = "https://www.google.com/maps/dir/?api=1&origin="+lat_a+","+long_b+"&destination="+lat_b+","+long_b+"&travelmode=driving"
 }
-
     function send_loc() {
 mail();
 }
-
 function mail(){
 var link = "https://www.google.com/maps/dir/?api=1&origin="+lat_a+","+long_b+"&destination="+lat_b+","+long_b+"&travelmode=driving"
 var xhr = new XMLHttpRequest();
@@ -319,7 +320,6 @@ xhr.onreadystatechange = function() {
 };
 xhr.send(JSON.stringify({link_dir: link}));
 }
-
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {

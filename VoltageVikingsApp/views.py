@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from geopy import distance
 from .mixins import Directions
 from django.conf import settings
+
 lat, long = 0, 0
 src_lat, src_long = 0, 0
 
@@ -123,3 +124,14 @@ def map(request, dest_lat=None, dest_long=None, id=None, page=None):
         "page": page,
     }
     return render(request, 'main/routemap.html', context)
+
+
+def live(request, src_lat_got=None, src_long_got=None, dest_lat=None, dest_long=None, page=None, txn_id=None):
+    context = {
+        "google_api_key": settings.GOOGLE_API_KEY,
+        "origin": f'{src_lat_got}, {src_long_got}',
+        "destination": f'{dest_lat}, {dest_long}',
+        "page": page,
+        "txn_id": txn_id
+    }
+    return render(request, "main/live.html", context)
