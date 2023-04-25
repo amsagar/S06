@@ -259,17 +259,17 @@ def send_request(request):
                     latest_request_by_user.delete()
                     request_obj = Requests.objects.create(from_user=from_user, to_user=to_user, charge_time=charge_time)
                     request_obj.save()
-                    # mail_request(request, to_id)
+                    mail_request(request, to_id)
                     return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
             else:
                 request_obj = Requests.objects.create(from_user=from_user, to_user=to_user, charge_time=charge_time)
                 request_obj.save()
-                # mail_request(request, to_id)
+                mail_request(request, to_id)
                 return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
         except:
             request_obj = Requests.objects.create(from_user=from_user, to_user=to_user, charge_time=charge_time)
             request_obj.save()
-            # mail_request(request, to_id)
+            mail_request(request, to_id)
             return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
 
 
