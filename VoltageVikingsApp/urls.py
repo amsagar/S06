@@ -6,4 +6,5 @@ urlpatterns = [
     path('account/', include('allauth.urls')),
     path('captcha/', include('captcha.urls')),
     path('home/', views.home_page),
+    path('getlocation/', views.get_location),
 ]

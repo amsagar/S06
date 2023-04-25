@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block toplink %}
+<li class="nav__item">
+    <a href="javascript:history.go(-1)" class="nav__link">Back</a>
+</li>
+<li class="nav__item">
+    <a href="/home" class="nav__link">Home</a>
+</li>
+<li class="nav__item">
+    <a href="/profile" class="nav__link">Profile</a>
+</li>
+<li class="nav__item">
+    <a href="/account/logout" class="nav__link">Logout</a>
+</li>
+{% endblock %}
+{% block style %}
+{% endblock %}
+{% block content %}
+<main class="main">
+    <section class="featured section" id="featured">
+        <h2 class="section__title">Near By Charging Stations</h2>
+        <div class="sort-by" style="float:right;margin-right:15%;">
+            <label class="sort-by__label">Sort By Distance: </label>
+            <select onchange="sort()" class="sort-by__select">
+                <option value="1">1 Kms</option>
+                <option value="2">2 Kms</option>
+                <option value="3">3 Kms</option>
+                <option value="5">5 Kms</option>
+                <option value="10">10 Kms</option>
+                <option value="15">15 Kms</option>
+                <option value="25" selected>25 Kms</option>
+            </select>
+        </div>
+        <br><br>
+        <div class="featured__container container">
+            <ul class="featured__filters">
+                <li>
+                    <button class="featured__item button active-featured" data-filter="all">
+                        <span>Charging Stations</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="featured__item button" data-filter=".tesla" id="nearbyhome"
+                            onclick="window.location.href='/nearbyhome'">
+                        <span>Home Stations</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="featured__content grid">
+            {% if stat %}
+            {% for i in stat %}
+            <article class="featured__card mix tesla">
+                <div class="shape shape__smaller info1"></div>
+                <h1 class="featured__title">{{i.address.name}}</h1>
+                <h3 class="featured__price">{{i.address.address}}</h3>
+                <h3 class="featured__price">{{i.address.phone_number}}</h3>
+                <button class="button featured__button"
+                        onclick="myFunction(this.getAttribute('data-foo'), this.getAttribute('data-bar'), this.getAttribute('data-user'), this.getAttribute('data-page'))"
+                        data-foo="{{i.address.lat}}" data-bar="{{i.address.lon}}" data-user="{{i.address.id}}"
+                        data-page=0>
+                    <i class="ri-arrow-right-line"></i>
+                </button>
+            </article>
+            {% endfor %}
+        </div>
+                    {% else %}
+           <h2>Not Found</h2>
+            {% endif %}
+    </section>
+</main>
+{% block script %}
+{% endblock %}
+{% endblock %}
+
