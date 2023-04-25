@@ -75,13 +75,7 @@ class UserProfileForm(forms.ModelForm):
                 raise ValidationError("District must be at least 3 characters long")
             return district
 
-        def clean_state(self):
-            state = self.cleaned_data['state']
-            if not state:
-                raise ValidationError("State is required")
-            if len(state) < 3:
-                raise ValidationError("State must be at least 3 characters long")
-            return state
+
 
         def clean_country(self):
             country = self.cleaned_data['country']
