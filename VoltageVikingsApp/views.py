@@ -19,3 +19,4 @@ def home_page(request):
         user_requests = None
     return render(request, 'main/home_page.html',
                   {'profile': profile, 'message': 'LOGIN SUCCESSFULL!!!', 'req': user_requests})
+

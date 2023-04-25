@@ -1,6 +1,5 @@
 {% extends "socialaccount/base.html" %}
 {% load i18n %}
-
 {% block links %}
 {% if user.is_authenticated %}
 <li class="nav__item">
@@ -34,7 +33,6 @@
   {% csrf_token %}<br>
   <button class="button-73" type="submit"  style="width: 100%; padding: 0.5rem; margin-top: 1rem; background-color: purple; color: #fff; font-size: 18px; border: none; cursor: pointer;">{% trans "Continue" %}</button>
 </form>
-
     </div>
 </div>
 {% endblock %}

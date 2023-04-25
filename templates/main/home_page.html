@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
     <title>Voltage Vikings</title>
     <style>
 .home__button1{
@@ -126,12 +125,9 @@
      margin-left:10vh;
     }
 }
-
     </style>
 </head>
-
 <body>
-
 <header class="header" id="header">
     <nav class="nav container">
         <a href="#" class="nav__logo" style="font-size: 0.8cm;margin-top:8px;">
@@ -161,14 +157,10 @@
         </div>
     </nav>
 </header>
-
 <main class="main">
-
     <section class="home section" id="home">
         <div class="shapeX shape__big"></div>
         <div class="shapeX shape__small"></div>
-
-
         <div class="home__container container grid">
             <div class="home__data">
                 <h1 class="home__title">
@@ -206,19 +198,11 @@
                 </div>
                 {% endif %}
                 {% endif %}
-
-
             </div>
-
-
             <a id="nearby" class="home__button1">Nearby Charging Stations</a>
             <a class="home__button1" id="nearbyhome">Nearby Home Stations</a>
-
         </div>
-
-
         </div>
-
     </section>
     <section class="gallery section">
         <div class="gallery__container container grid">
@@ -227,9 +211,7 @@
             <video class="video__slide" src="{% static 'video/vid.mp4' %}" autoplay muted loop></video>
             <video class="video__slide" src="{% static 'video/vid_1.mp4' %}" autoplay muted loop></video>
             <video class="video__slide" src="{% static 'video/vid_1.mp4' %}" autoplay muted loop></video>
-
         </div>
-
     </section>
      {% if profile.completed_profile %}
     <section class="about section" id="so">
@@ -250,13 +232,10 @@
             {% else %}
              <h2 class="section__title about__title">No Data Found</h2>
             {% endif %}
-
         </div>
-
     </section>
      {% endif %}
 </main>
-
 <footer style="text-align:center;margin-bottom:40px;margin-top:10%">
         <span>
             &#169; <a target="_blank" href="#" class="footer__dev-link">Voltage Vikings.</a> All rigths
@@ -264,36 +243,16 @@
             <p id="date"></p>
         </span>
 </footer>
-
-
-<!--========== SCROLL UP ==========-->
-
 <a href="" class="scrollup" id="scroll-up">
     <i class="ri-arrow-up-s-line"></i>
 </a>
-
-
 <script src="{% static 'js/scrollrevealAnimation.min.js'%}"></script>
-
 <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
-
 <script src="{% static 'js/mixitup.min.js' %}"></script>
-
 <script src="{% static 'js/main.js' %}"></script>
-{% if message %}
-<script>
-toastr.{{ message.tags }}("{{ message }}");
-
-
-
-</script>
-{% endif %}
-
 </body>
 <script>
-
   var getLocationButton = document.getElementById("nearby");
-
   getLocationButton.addEventListener("click", function() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -301,12 +260,9 @@ toastr.{{ message.tags }}("{{ message }}");
       alert("Geolocation is not supported by this browser.");
     }
   });
-
   function showPosition(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-
-    // Send location to server using AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/nearbystations/");
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -322,14 +278,12 @@ toastr.{{ message.tags }}("{{ message }}");
     };
     xhr.send(JSON.stringify({latitude: latitude, longitude: longitude, dest_got: 25}));
   }
-
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
       var cookies = document.cookie.split(';');
       for (var i = 0; i < cookies.length; i++) {
         var cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
         if (cookie.substring(0, name.length + 1) === (name + '=')) {
           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
           break;
@@ -338,15 +292,9 @@ toastr.{{ message.tags }}("{{ message }}");
     }
     return cookieValue;
   }
-
-
-
-
-
 </script>
 <script>
   var getLocationButton1 = document.getElementById("nearbyhome");
-
   getLocationButton1.addEventListener("click", function() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition1);
@@ -354,12 +302,9 @@ toastr.{{ message.tags }}("{{ message }}");
       alert("Geolocation is not supported by this browser.");
     }
   });
-
   function showPosition1(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-
-    // Send location to server using AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/nearbyhome/");
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -375,7 +320,6 @@ toastr.{{ message.tags }}("{{ message }}");
     };
     xhr.send(JSON.stringify({latitude: latitude, longitude: longitude, dest_got: 5}));
   }
-
 var h3Element = document.querySelector(".home__elec");
 var checkbox = document.getElementById("checkbox");
 checkbox.addEventListener("change", function() {
@@ -394,10 +338,5 @@ checkbox.addEventListener("change", function() {
     h3Element.textContent = "Turn on if you are available";
   }
 });
-
-
-
 </script>
-
-
 </html>
