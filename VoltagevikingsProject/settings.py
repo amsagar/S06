@@ -17,9 +17,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'VoltageVikingsApp',
-    'allauth'
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'captcha'
 ]
-
+SITE_ID = 2
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -86,6 +90,43 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = 'static/'
 STATIC_DIRS = ((os.path.join(BASE_DIR, 'static')),)
+# Allauth config
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+ACCOUNT_FORMS = {
+    'login': 'VoltageVikingsApp.forms.CaptchaLoginForm',
+    'signup': 'VoltageVikingsApp.forms.CaptchaSignUpForm',
+}
+LOGIN_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/account/login'
+LOGIN_URL = '/account/login'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/completeprofile'
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/home'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 180
+ACCOUNT_EMAIL_CONFIRMATION_SUBJECT = 'Please confirm your email address for Example.com'
+ACCOUNT_EMAIL_CONFIRMATION_EMAIL = 'account/email_confirmation_message.html'
+ACCOUNT_EMAIL_PASSWORD_RESET_EMAIL = 'account/password_reset_message.html'
 
 # APIs Config
 EMAIL_HOST_USER = 'voltagevikings1@gmail.com'
