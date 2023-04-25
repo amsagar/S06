@@ -10,6 +10,9 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
 
 lat, long = 0, 0
 src_lat, src_long = 0, 0
@@ -356,3 +359,31 @@ def maph(request, dest_lat=None, dest_long=None, id=None, src_lat=None, src_long
     }
     return render(request, 'main/routemap.html', context)
 
+
+@login_required
+def send_dir_mail(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        link = data.get('link_dir')
+        to_mail = request.user.emsil
+        from_email = 'voltagevikings1@gmail.com'
+        subject = 'Direction From Voltage Vikings'
+        body = f'View Direction From Your Location To Charging Station\nIn Order To Get Live Routing Kindly Change The Start' \
+               'Location At Top Of The GMap Application To Your Location.\n' \
+               f'Link: {link}\n' \
+               'Thanks For Using Voltage Vikings.'
+        msg = MIMEMultipart()
+        msg['From'] = from_email
+        msg['To'] = to_mail
+        msg['Subject'] = subject
+        msg.attach(MIMEText(body, 'plain'))
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 587
+        smtp_username = settings.EMAIL_HOST_USER
+        smtp_password = settings.EMAIL_HOST_PASSWORD
+        smtp_conn = smtplib.SMTP(smtp_server, smtp_port)
+        smtp_conn.starttls()
+        smtp_conn.login(smtp_username, smtp_password)
+        smtp_conn.sendmail(from_email, to_mail, msg.as_string())
+        smtp_conn.quit()
+        return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
