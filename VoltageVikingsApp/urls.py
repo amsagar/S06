@@ -1,11 +1,14 @@
 from django.urls import path, include
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
-    path('', views.landing_page_view),
-    path('account/', include('allauth.urls')),
-    path('captcha/', include('captcha.urls')),
-    path('home/', views.home_page),
-    path('getlocation/', views.get_location),
-    path('nearbystations/', views.nearby_stat),
-]
+                  path('', views.landing_page_view),
+                  path('account/', include('allauth.urls')),
+                  path('captcha/', include('captcha.urls')),
+                  path('home/', views.home_page),
+                  path('getlocation/', views.get_location),
+                  path('nearbystations/', views.nearby_stat),
+                  path('route/<str:dest_lat>/<str:dest_long>/<int:id>/<int:page>/', views.map),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

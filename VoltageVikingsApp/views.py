@@ -3,7 +3,8 @@ from .models import UserProfile, Requests, ChargingStations
 import json
 from django.http import JsonResponse
 from geopy import distance
-
+from .mixins import Directions
+from django.conf import settings
 lat, long = 0, 0
 src_lat, src_long = 0, 0
 
@@ -72,3 +73,53 @@ def nearby_stat(request):
             pass
     context = {'stat': nearby_addresses}
     return render(request, 'main/nearbystat.html', context)
+
+
+def map(request, dest_lat=None, dest_long=None, id=None, page=None):
+    global src_lat, src_long
+    if page == 0 and id:
+        dest_user = ChargingStations.objects.get(id=id)
+    else:
+        dest_user = UserProfile.objects.get(id=id)
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        src_lat = float(data.get('latitude'))
+        src_long = float(data.get('longitude'))
+        directions = Directions(
+            lat_a=src_lat,
+            long_a=src_long,
+            lat_b=dest_lat,
+            long_b=dest_long
+        )
+        context = {
+            "google_api_key": settings.GOOGLE_API_KEY,
+            "lat_a": src_lat,
+            "long_a": src_long,
+            "lat_b": dest_lat,
+            "long_b": dest_long,
+            "origin": f'{src_lat}, {src_long}',
+            "destination": f'{dest_lat}, {dest_long}',
+            "directions": directions,
+            "destuser": dest_user,
+            "page": page,
+        }
+        return render(request, 'main/routemap.html', context)
+    directions = Directions(
+        lat_a=src_lat,
+        long_a=src_long,
+        lat_b=dest_lat,
+        long_b=dest_long
+    )
+    context = {
+        "google_api_key": settings.GOOGLE_API_KEY,
+        "lat_a": src_lat,
+        "long_a": src_long,
+        "lat_b": dest_lat,
+        "long_b": dest_long,
+        "origin": f'{src_lat}, {src_long}',
+        "destination": f'{dest_lat}, {dest_long}',
+        "directions": directions,
+        "destuser": dest_user,
+        "page": page,
+    }
+    return render(request, 'main/routemap.html', context)
