@@ -366,7 +366,7 @@ def send_dir_mail(request):
         data = json.loads(request.body)
         link = data.get('link_dir')
         to_mail = request.user.emsil
-        from_email = 'voltagevikings1@gmail.com'
+        from_email = request.user.email
         subject = 'Direction From Voltage Vikings'
         body = f'View Direction From Your Location To Charging Station\nIn Order To Get Live Routing Kindly Change The Start' \
                'Location At Top Of The GMap Application To Your Location.\n' \
@@ -387,3 +387,17 @@ def send_dir_mail(request):
         smtp_conn.sendmail(from_email, to_mail, msg.as_string())
         smtp_conn.quit()
         return JsonResponse({'status': 'success', 'message': 'Action performed successfully'})
+
+
+@login_required
+def final_payment(request, txn_id):
+    item = Requests.objects.get(id=txn_id)
+    tot_amt = item.charge_amt
+    amt = tot_amt - (tot_amt * 25) / 100
+    client = razorpay.Client(auth=(settings.RAZOR_PAY_API_KEY, settings.RAZOR_PAY_SECRET_KEY))
+    ord_amt = amt * 100
+    ord_curr = 'INR'
+    order = client.order.create(dict(amount=ord_amt, currency=ord_curr, payment_capture=1))
+    ord_id = order['id']
+    return render(request, 'main/pay1.html',
+                  {'key': settings.RAZOR_PAY_API_KEY, 'ord_id': ord_id, 'txn': item})

@@ -24,8 +24,11 @@ urlpatterns = [
                   path('rej_req/', views.reject_request),
                   path('pay/<int:id>/', views.adv_payment),
                   path('advpaysuc/<int:id>/', views.advPaysucc),
-                  path('homeroute/<str:src_lat>/<str:src_long>/<str:dest_lat>/<str:dest_long>/<int:id>/<int:page>/<int:txn_id>/',
+                  path(
+                      'homeroute/<str:src_lat>/<str:src_long>/<str:dest_lat>/<str:dest_long>/<int:id>/<int:page>/<int:txn_id>/',
                       views.maph),
-                  path('liverouting/<str:src_lat_got>/<str:src_long_got>/<str:dest_lat>/<str:dest_long>/<int:page>/<int:txn_id>/',
+                  path(
+                      'liverouting/<str:src_lat_got>/<str:src_long_got>/<str:dest_lat>/<str:dest_long>/<int:page>/<int:txn_id>/',
                       views.live),
+                  path('final_pay/<int:txn_id>/', views.final_payment),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -6,3 +6,12 @@
 - It connects these two owners and solves the problem of charging station deficiency.
 - It recommends the owners based on their location and charging port power.
 - This application has the potential to bring up more electric vehicles in to the society and solve the problem of charging station deficiency
+# Tech Stack:
+- Backend
+  -  SQLite
+- Middleware 
+  - Python Django Framework
+- Frontend 
+  - HTML
+  - CSS
+  - Javascript
