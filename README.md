@@ -45,6 +45,8 @@
     - `python manage.py migrate`
     - `python manage.py createsuperuser` - Create Admin Account Here
     - `python manage.py runserver`
+    - If You Face Issues In Loading Static Files Like CSS, Javascript Then Run The Below Command
+      - `python manage.py collectstatic` 
   - Your Project Will Be Running At `localhost` Head On To Link http://127.0.0.1:8000/
   - To Access The Admin Account Head On To Link http://127.0.0.1:8000/admin And Login With username and password Given While Creating Superuser
   - And Also Its Important To Ensure That The Social Application Provider Is Configured With The Neccessary Keys In The Admin Panel Just As Shown Below
