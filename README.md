@@ -36,7 +36,7 @@
   - RAZOR_PAY_SECRET_KEY = "your razor pay secret key"
 - Open The Terminal In Your Project Directory Make Sure Two Things
   - Your In The `BASE_DIR` Of The Project
-    - Tip: Where You Will Be Seen The File `manage.py`
+    - Tip: Where You Will Find The File `manage.py`
   - Your `venv`(Virtual Environment) Is Activated
     - Tip: Your Terminal Prompt Should Look Like This `(your_virtual_environment name) path/to/your/project/ %` 
   - Now All Done You Are Ready With The Project Configuration. Now Run The Following Command In The Terminal
