@@ -129,8 +129,8 @@ ACCOUNT_EMAIL_CONFIRMATION_EMAIL = 'account/email_confirmation_message.html'
 ACCOUNT_EMAIL_PASSWORD_RESET_EMAIL = 'account/password_reset_message.html'
 
 # APIs Config
-EMAIL_HOST_USER = 'voltagevikings1@gmail.com'
-EMAIL_HOST_PASSWORD = "tqdfuzhnpwhetfal"
-GOOGLE_API_KEY = "AIzaSyCIKOWjBoOrpKcddfDKSu0U6M-pXhLmbK4"
-RAZOR_PAY_API_KEY = "rzp_test_L94mPFjinvf9ww"
-RAZOR_PAY_SECRET_KEY = "HTMxJlrWjIihBbgEyV0FFBV3"
+EMAIL_HOST_USER = '<Your mail id>'
+EMAIL_HOST_PASSWORD = "<Your password>"
+GOOGLE_API_KEY = "<Your gmap api key>"
+RAZOR_PAY_API_KEY = "<your razor pay api key>"
+RAZOR_PAY_SECRET_KEY = "<your razor pay secret key>"
